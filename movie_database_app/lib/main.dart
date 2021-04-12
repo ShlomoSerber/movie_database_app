@@ -1,3 +1,1 @@
-void main() {
-  int number;
-}
+void main() {}
