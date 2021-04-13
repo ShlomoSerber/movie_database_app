@@ -1,0 +1,15 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "movie_database_app",
+            "cwd": "movie_database_app",
+            "request": "launch",
+            "type": "dart",
+            "program": "/home/shlomo/Desktop/Shlomo/Programing/Dart/Curso Dart/Nivelacion/movie_database_app/movie_database_app/lib/main/main.dart"
+        }
+    ]
+}
