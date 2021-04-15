@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
-
-const String restHttp =
-    'https://api.themoviedb.org/3/movie/top_rated?api_key=0e685fd77fb3d76874a3ac26e0db8a4b&language=en-US';
+import 'package:movie_database_app/top_rated_movie/tRMovieLink_variable.dart';
 
 class Test extends StatefulWidget {
   @override
@@ -18,7 +16,7 @@ class _TestState extends State<Test> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: http.get(Uri.parse(restHttp)),
+          future: http.get(Uri.parse(tRMovieLink)),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
