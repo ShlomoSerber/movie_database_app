@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
-import 'package:movie_database_app/top_rated_movie/tRMovieLink_variable.dart';
+import 'package:movie_database_app/top_rated_movie/tRMovieLinks_variables.dart';
 
 class Test extends StatefulWidget {
   @override
