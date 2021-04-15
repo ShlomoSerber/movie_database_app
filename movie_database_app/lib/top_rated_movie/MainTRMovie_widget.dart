@@ -43,8 +43,13 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
                       //imageLink + results.results[index].posterPath),
                       //),
                       Container(
+                        height: 40,
+                        width: 40,
                         child: Image.network(
-                            imageLink + results.results[index].posterPath),
+                          imageLink + results.results[index].posterPath,
+                          scale: 0.1,
+                          repeat: ImageRepeat.noRepeat,
+                        ),
                       ),
                     ],
                   ),
