@@ -46,10 +46,7 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
                         height: 40,
                         width: 40,
                         child: Image.network(
-                          imageLink + results.results[index].posterPath,
-                          scale: 0.1,
-                          repeat: ImageRepeat.noRepeat,
-                        ),
+                            imageLink + results.results[index].posterPath),
                       ),
                     ],
                   ),
