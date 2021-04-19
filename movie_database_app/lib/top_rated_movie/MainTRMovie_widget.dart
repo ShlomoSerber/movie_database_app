@@ -19,41 +19,63 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
         future: http.get(Uri.parse(tRMovieLink)),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: LinearProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
           if (!snapshot.hasData) {
             return Center(
               child: Column(
-                children: [Text('Error:'), Text('Data not available')],
+                children: [
+                  Center(
+                    child: Text('Error:'),
+                  ),
+                  Center(
+                    child: Text('Data not available'),
+                  ),
+                ],
               ),
             );
           }
 
           final Map parsed = json.decode(snapshot.data.body);
           results = TRMovie.fromJson(parsed);
+          ShapeBorder shape = RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(40.0),
+            ),
+          );
 
-          return ListView.builder(
+          return GridView.builder(
             itemBuilder: (context, index) {
-              return SafeArea(
-                child: Container(
-                  child: Row(
+              return Card(
+                color: Colors.white54,
+                margin: EdgeInsets.all(4.0),
+                shape: shape,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: ,
                     children: [
-                      //Container(
-                      //child: Image.network(
-                      //imageLink + results.results[index].posterPath),
-                      //),
-                      Container(
-                        height: 40,
-                        width: 40,
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(40.0),
                         child: Image.network(
-                            imageLink + results.results[index].posterPath),
+                          imageLink + results.results[index].posterPath,
+                        ),
                       ),
+                      Center(
+                        child: Text(
+                          results.results[index].title,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                     ],
                   ),
                 ),
               );
             },
             itemCount: results.results.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
           );
         },
       ),
