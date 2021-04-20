@@ -15,7 +15,7 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey.shade900,
       body: FutureBuilder(
         future: http.get(Uri.parse(tRMovieLink)),
         builder: (context, snapshot) {
@@ -41,66 +41,65 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
           results = TRMovie.fromJson(parsed);
           ShapeBorder shape = RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(30.0),
+              Radius.circular(20.0),
             ),
           );
-          double aspectRatio = MediaQuery.of(context).size.aspectRatio;
+          double width = MediaQuery.of(context).size.width;
 
-          return GridView.builder(
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: aspectRatio * 5,
-                color: Colors.white60,
-                shadowColor: Colors.white,
-                shape: shape,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Padding(
+          return Padding(
+            padding: EdgeInsets.all(width * 0.007),
+            child: GridView.builder(
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: width * 0.007,
+                  color: Colors.white,
+                  shadowColor: Colors.black,
+                  shape: shape,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
                         padding: EdgeInsets.only(
-                          left: aspectRatio * 6,
-                          right: aspectRatio * 6,
-                          top: aspectRatio * 6,
-                          bottom: aspectRatio * 3,
+                          left: width * 0.02,
+                          right: width * 0.02,
+                          top: width * 0.02,
+                          bottom: width * 0.005,
                         ),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30.0),
-                            ),
-                          ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
                           child: Image.network(
                             imageLink + results.results[index].posterPath,
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: aspectRatio * 6,
-                        right: aspectRatio * 6,
-                        top: aspectRatio * 3,
-                        bottom: aspectRatio * 6,
-                      ),
-                      child: Center(
-                        child: Text(
-                          results.results[index].title,
-                          style: TextStyle(
-                            fontSize: aspectRatio * 17.5,
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: width * 0.02,
+                          right: width * 0.02,
+                          top: width * 0.015,
+                          bottom: width * 0.01,
+                        ),
+                        child: Center(
+                          child: Text(
+                            results.results[index].title,
+                            style: TextStyle(
+                              fontSize: width * 0.03,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            itemCount: results.results.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+                    ],
+                  ),
+                );
+              },
+              itemCount: results.results.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                mainAxisSpacing: width * 0.005,
+                crossAxisSpacing: width * 0.005,
+                crossAxisCount: 2,
+                childAspectRatio: 0.64,
+              ),
             ),
           );
         },
