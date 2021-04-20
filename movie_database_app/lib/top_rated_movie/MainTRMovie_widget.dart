@@ -15,6 +15,7 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: FutureBuilder(
         future: http.get(Uri.parse(tRMovieLink)),
         builder: (context, snapshot) {
@@ -40,35 +41,60 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
           results = TRMovie.fromJson(parsed);
           ShapeBorder shape = RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(40.0),
+              Radius.circular(30.0),
             ),
           );
+          double aspectRatio = MediaQuery.of(context).size.aspectRatio;
 
           return GridView.builder(
             itemBuilder: (context, index) {
               return Card(
-                color: Colors.white54,
-                margin: EdgeInsets.all(4.0),
+                elevation: aspectRatio * 5,
+                color: Colors.white60,
+                shadowColor: Colors.white,
                 shape: shape,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: ,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(40.0),
-                        child: Image.network(
-                          imageLink + results.results[index].posterPath,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: aspectRatio * 6,
+                          right: aspectRatio * 6,
+                          top: aspectRatio * 6,
+                          bottom: aspectRatio * 3,
+                        ),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(30.0),
+                            ),
+                          ),
+                          child: Image.network(
+                            imageLink + results.results[index].posterPath,
+                          ),
                         ),
                       ),
-                      Center(
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: aspectRatio * 6,
+                        right: aspectRatio * 6,
+                        top: aspectRatio * 3,
+                        bottom: aspectRatio * 6,
+                      ),
+                      child: Center(
                         child: Text(
                           results.results[index].title,
-                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: aspectRatio * 17.5,
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
