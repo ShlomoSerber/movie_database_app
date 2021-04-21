@@ -1,4 +1,4 @@
-#Mon Apr 19 18:05:04 ART 2021
+#Tue Apr 20 17:36:35 ART 2021
 base.0=/home/shlomo/Desktop/Shlomo/Programing/Dart/Curso Dart/Nivelacion/movie_database_app/movie_database_app/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
