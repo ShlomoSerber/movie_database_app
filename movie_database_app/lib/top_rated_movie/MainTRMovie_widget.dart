@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
-import 'package:movie_database_app/top_rated_movie/tRMovieLinks_variables.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movie_database_app/top_rated_movie/api_links.dart';
 
-class MainTRMovieWidget extends StatefulWidget {
+class MainTRMovie extends StatefulWidget {
   @override
-  _MainTRMovieWidgetState createState() => _MainTRMovieWidgetState();
+  _MainTRMovieState createState() => _MainTRMovieState();
 }
 
-class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
+class _MainTRMovieState extends State<MainTRMovie> {
   // Global variables:
   TRMovie results;
   int pageNumber = 1;
@@ -36,8 +36,6 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
 
   @override
   Widget build(BuildContext context) {
-    width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Colors.grey.shade900,
       appBar: AppBar(
@@ -72,6 +70,7 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
           final Map parsed = json.decode(snapshot.data.body);
           results = TRMovie.fromJson(parsed);
           finalPage = results.totalPages;
+          width = MediaQuery.of(context).size.width;
 
           return Stack(
             alignment: Alignment.center,
@@ -174,13 +173,19 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
               Positioned(
                 bottom: 0,
                 child: Container(
-                  constraints: BoxConstraints(
-                    minWidth: width,
+                  height: width * 0.11,
+                  width: width * 0.87,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Color.fromRGBO(0, 0, 0, 0.8),
                   ),
-                  color: Color.fromRGBO(0, 0, 0, 0.9),
-                  child: ButtonBar(
-                    layoutBehavior: ButtonBarLayoutBehavior.padded,
-                    children: buildButtons(pageNumber),
+                  child: Padding(
+                    padding: EdgeInsets.all(width * 0.013),
+                    child: ButtonBar(
+                      buttonPadding: EdgeInsets.all(width * 0.001),
+                      alignment: MainAxisAlignment.center,
+                      children: buildButtons(),
+                    ),
                   ),
                 ),
               ),
@@ -194,71 +199,144 @@ class _MainTRMovieWidgetState extends State<MainTRMovieWidget> {
   var backgroundColor = MaterialStateProperty.all(Colors.white);
   var onTap = MaterialStateProperty.all(Colors.grey);
 
-  Widget buildButton(int page, {String label}) {
-    return InkWell(
-      onTap: () {
-        backgroundColor = onTap;
+  Widget next = Icon(
+    Icons.arrow_forward,
+    color: Colors.black,
+  );
+
+  Widget buildButton(int page, {var label}) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          pageNumber = page;
+        });
       },
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            pageNumber = page;
-          });
-        },
-        style: ButtonStyle(
-          elevation: MaterialStateProperty.all(width * 0.01),
-          backgroundColor: backgroundColor,
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
+      style: ButtonStyle(
+        minimumSize:
+            MaterialStateProperty.all(Size(width * 0.11, width * 0.15)),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(7.0),
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(
-            width * 0.01,
+        backgroundColor: backgroundColor,
+        side: MaterialStateProperty.all(
+          BorderSide(
+            color: Colors.black,
           ),
-          child: Text(
-            label ?? page.toString(),
+        ),
+      ),
+      child: label,
+    );
+  }
+
+  List<Widget> buildButtons() {
+    const int maxButtons = 2;
+    int condition = finalPage - maxButtons;
+
+    List<Widget> buttons = [];
+
+    // Previous button
+    if (pageNumber > 1) {
+      buttons.add(
+        buildButton(
+          pageNumber = pageNumber - 1,
+          label: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+            size: width * 0.03,
+          ),
+        ),
+      );
+    }
+
+    // First page
+    bool condition1 = pageNumber == 1;
+    bool condition2 = pageNumber == 2;
+    bool condition3 = pageNumber == 3;
+    bool finalCondition = condition1 || condition2 || condition3 == true;
+    if (finalCondition == false) {
+      buttons.add(
+        buildButton(
+          1,
+          label: Text(
+            '1',
             style: TextStyle(
               color: Colors.black,
               fontSize: width * 0.03,
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  List<Widget> buildButtons(int startButton) {
-    const int maxButtons = 3;
-    var condition = finalPage - maxButtons;
-
-    List<Widget> buttons = [];
-
-    // previous button
-    if (pageNumber > 1) {
-      buttons.add(buildButton(pageNumber--, label: '<< Previous'));
+      );
     }
 
-    // first button
-    if (pageNumber != 1) {
-      buttons.add(buildButton(1, label: '1'));
+    // Previous 2 pages
+    for (int i = 0; i < 2; i++) {
+      int previousNumber = pageNumber - 1 + i;
+      if (previousNumber >= 1) {
+        buttons.add(
+          buildButton(
+            previousNumber,
+            label: Text(
+              previousNumber.toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: width * 0.03,
+              ),
+            ),
+          ),
+        );
+      }
     }
 
-    // page buttons
-    for (int i = 0; i < maxButtons; i++) {
-      if (i < condition) {
-        buttons.add(buildButton(startButton + 1 + i));
+    // Next 2 pages
+    for (int i = 0; i < 2; i++) {
+      int nextNumber = pageNumber + 1 + i;
+      if (nextNumber >= 1) {
+        buttons.add(
+          buildButton(
+            nextNumber,
+            label: Text(
+              nextNumber.toString(),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: width * 0.03,
+              ),
+            ),
+          ),
+        );
       }
     }
 
     // last button
-    buttons.add(buildButton(finalPage));
+    if (pageNumber != finalPage) {
+      buttons.add(
+        buildButton(
+          finalPage,
+          label: Text(
+            finalPage.toString(),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: width * 0.03,
+            ),
+          ),
+        ),
+      );
+    }
 
     // next button
-    if (pageNumber < finalPage) {
-      buttons.add(buildButton(pageNumber++, label: 'Next >>'));
+    if (pageNumber == finalPage) {
+      int nextPage = pageNumber + 1;
+      buttons.add(
+        buildButton(
+          nextPage,
+          label: Icon(
+            Icons.arrow_forward,
+            color: Colors.black,
+            size: width * 0.03,
+          ),
+        ),
+      );
     }
 
     return buttons;
