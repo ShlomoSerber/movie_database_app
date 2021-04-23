@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:movie_database_app/global_theme/global_theme.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_database_app/top_rated_movie/api_links.dart';
@@ -11,35 +12,32 @@ class MainTRMovie extends StatefulWidget {
 }
 
 class _MainTRMovieState extends State<MainTRMovie> {
-  // Global variables:
+  // Global class variables:
   TRMovie results;
   int pageNumber = 1;
   int finalPage;
   double width;
-  Widget fullStar = Icon(
-    Icons.star,
-    color: Colors.black,
+  // Big button border radius
+  MaterialStateProperty<OutlinedBorder> bigButtonShape =
+      MaterialStateProperty.all(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
   );
-  Widget emptyStar = Icon(
-    Icons.star_outline,
-    color: Colors.black,
-  );
-  Widget halfStar = Icon(
-    Icons.star_half,
-    color: Colors.black,
-  );
-  ShapeBorder shape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(20.0),
+  // Small button border radius
+  MaterialStateProperty<OutlinedBorder> smallButtonShape =
+      MaterialStateProperty.all(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
     ),
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: appBarColor,
         title: Center(child: Text('Top Rated Movies')),
       ),
       body: FutureBuilder(
@@ -50,21 +48,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData) {
-            return Center(
-              child: Column(
-                children: [
-                  Center(
-                    child: Text('Error:'),
-                  ),
-                  Center(
-                    child: Text('Data not available'),
-                  ),
-                ],
-              ),
-            );
+            return Center(child: CircularProgressIndicator.adaptive());
           }
 
           final Map parsed = json.decode(snapshot.data.body);
@@ -88,9 +72,9 @@ class _MainTRMovieState extends State<MainTRMovie> {
                   itemBuilder: (context, index) {
                     return Card(
                       elevation: width * 0.01,
-                      color: Colors.white,
-                      shadowColor: Colors.black,
-                      shape: shape,
+                      color: cardBackgroundColor,
+                      shadowColor: shadowColor,
+                      shape: cardShape,
                       child: Column(
                         children: [
                           Padding(
@@ -101,7 +85,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
                               bottom: width * 0.01,
                             ),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: cardRadius,
                               child: Image.network(
                                 imageLink + results.results[index].posterPath,
                               ),
@@ -120,8 +104,10 @@ class _MainTRMovieState extends State<MainTRMovie> {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: width * 0.03,
-                                color: Colors.black,
+                                fontSize: textScaleFactor(
+                                  scaleFactor: width,
+                                ),
+                                color: textColor,
                               ),
                             ),
                           ),
@@ -139,7 +125,9 @@ class _MainTRMovieState extends State<MainTRMovie> {
                                   RatingBar(
                                     initialRating:
                                         results.results[index].voteAverage,
-                                    itemSize: width * 0.03,
+                                    itemSize: textScaleFactor(
+                                      scaleFactor: width,
+                                    ),
                                     allowHalfRating: true,
                                     direction: Axis.horizontal,
                                     itemCount: 10,
@@ -156,8 +144,10 @@ class _MainTRMovieState extends State<MainTRMovie> {
                                             .toString() +
                                         ')',
                                     style: TextStyle(
-                                      fontSize: width * 0.03,
-                                      color: Colors.black,
+                                      fontSize: textScaleFactor(
+                                        scaleFactor: width,
+                                      ),
+                                      color: textColor,
                                     ),
                                   ),
                                 ],
@@ -174,10 +164,10 @@ class _MainTRMovieState extends State<MainTRMovie> {
                 bottom: 0,
                 child: Container(
                   height: width * 0.11,
-                  width: width * 0.87,
+                  width: width,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Color.fromRGBO(0, 0, 0, 0.8),
+                    borderRadius: smallRadius,
+                    color: blackTransparent,
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(width * 0.013),
@@ -196,15 +186,11 @@ class _MainTRMovieState extends State<MainTRMovie> {
     );
   }
 
-  var backgroundColor = MaterialStateProperty.all(Colors.white);
-  var onTap = MaterialStateProperty.all(Colors.grey);
+  MaterialStateProperty<Color> getButtonColor(int page) {
+    return page == pageNumber ? currentButtonColor : otherButtonsColor;
+  }
 
-  Widget next = Icon(
-    Icons.arrow_forward,
-    color: Colors.black,
-  );
-
-  Widget buildButton(int page, {var label}) {
+  Widget buildButton(int page, {var color, var label}) {
     return ElevatedButton(
       onPressed: () {
         setState(() {
@@ -219,121 +205,72 @@ class _MainTRMovieState extends State<MainTRMovie> {
             borderRadius: BorderRadius.circular(7.0),
           ),
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: color ?? getButtonColor(page),
         side: MaterialStateProperty.all(
           BorderSide(
             color: Colors.black,
           ),
         ),
       ),
-      child: label,
+      child: label ??
+          Text(
+            page.toString(),
+            style: TextStyle(
+              color: textColor,
+              fontSize: textScaleFactor(scaleFactor: width),
+            ),
+          ),
     );
   }
 
   List<Widget> buildButtons() {
-    const int maxButtons = 2;
-    int condition = finalPage - maxButtons;
-
     List<Widget> buttons = [];
 
     // Previous button
     if (pageNumber > 1) {
       buttons.add(
         buildButton(
-          pageNumber = pageNumber - 1,
+          pageNumber - 1,
           label: Icon(
             Icons.arrow_back,
-            color: Colors.black,
-            size: width * 0.03,
+            color: textColor,
+            size: textScaleFactor(scaleFactor: width),
           ),
         ),
       );
     }
 
     // First page
-    bool condition1 = pageNumber == 1;
-    bool condition2 = pageNumber == 2;
-    bool condition3 = pageNumber == 3;
-    bool finalCondition = condition1 || condition2 || condition3 == true;
-    if (finalCondition == false) {
-      buttons.add(
-        buildButton(
-          1,
-          label: Text(
-            '1',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: width * 0.03,
-            ),
-          ),
-        ),
-      );
+    if (pageNumber > 3) {
+      buttons.add(buildButton(1, color: extremeButtonColor));
     }
 
     // Previous 2 pages
-    for (int i = 0; i < 2; i++) {
-      int previousNumber = pageNumber - 1 + i;
-      if (previousNumber >= 1) {
-        buttons.add(
-          buildButton(
-            previousNumber,
-            label: Text(
-              previousNumber.toString(),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: width * 0.03,
-              ),
-            ),
-          ),
-        );
-      }
+    for (int i = pageNumber - 2; i < pageNumber; i++) {
+      if (i >= 1) buttons.add(buildButton(i));
     }
 
+    buttons.add(buildButton(pageNumber));
+
     // Next 2 pages
-    for (int i = 0; i < 2; i++) {
-      int nextNumber = pageNumber + 1 + i;
-      if (nextNumber >= 1) {
-        buttons.add(
-          buildButton(
-            nextNumber,
-            label: Text(
-              nextNumber.toString(),
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: width * 0.03,
-              ),
-            ),
-          ),
-        );
-      }
+    for (int i = pageNumber + 1; i < pageNumber + 3; i++) {
+      if (i <= finalPage) buttons.add(buildButton(i));
     }
 
     // last button
-    if (pageNumber != finalPage) {
-      buttons.add(
-        buildButton(
-          finalPage,
-          label: Text(
-            finalPage.toString(),
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: width * 0.03,
-            ),
-          ),
-        ),
-      );
+    if (pageNumber + 2 < finalPage) {
+      buttons.add(buildButton(finalPage, color: extremeButtonColor));
     }
 
     // next button
-    if (pageNumber == finalPage) {
-      int nextPage = pageNumber + 1;
+    if (pageNumber + 1 <= finalPage) {
       buttons.add(
         buildButton(
-          nextPage,
+          pageNumber + 1,
           label: Icon(
             Icons.arrow_forward,
-            color: Colors.black,
-            size: width * 0.03,
+            color: textColor,
+            size: textScaleFactor(scaleFactor: width),
           ),
         ),
       );
