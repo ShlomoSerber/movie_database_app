@@ -16,15 +16,8 @@ class TRMovie {
   factory TRMovie.fromJson(Map<dynamic, dynamic> json) => TRMovie(
         page: json["page"],
         results: List<TRResult>.from(
-            json["results"].map((x) => TRResult.fromJson(x))),
+            json["results"].map((map) => TRResult.fromJson(map))),
         totalPages: json["total_pages"],
         totalResults: json["total_results"],
       );
-
-  Map<String, dynamic> toJson() => {
-        "page": page,
-        "results": List<dynamic>.from(results.map((x) => x.toJson())),
-        "total_pages": totalPages,
-        "total_results": totalResults,
-      };
 }
