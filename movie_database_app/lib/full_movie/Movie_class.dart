@@ -31,7 +31,7 @@ class Movie {
   // Here i skipped the 'belongs to collection' map
   int budget;
   List<Genre> genres;
-  String homepage;
+  Uri homepage;
   int id;
   String imdbId;
   String originalLanguage;
@@ -41,7 +41,7 @@ class Movie {
   String posterPath;
   List<ProductionCompany> productionCompanies;
   List<ProductionCountry> productionCountries;
-  DateTime releaseDate;
+  String releaseDate;
   int revenue;
   int runtime;
   List<SpokenLanguage> spokenLanguages;
@@ -57,11 +57,11 @@ class Movie {
         backdropPath: json['backdrop_path'],
         budget: json['budget'],
         genres: List<Genre>.from(
-          json['production_companies'].map(
+          json['genres'].map(
             (map) => Genre.fromJson(map),
           ),
         ),
-        homepage: json['homepage'],
+        homepage: Uri.parse(json['homepage']),
         id: json['id'],
         imdbId: json['imdb_id'],
         originalLanguage: json['original_language'],

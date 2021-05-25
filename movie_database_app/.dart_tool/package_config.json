@@ -39,7 +39,7 @@
     },
     {
       "name": "cupertino_icons",
-      "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.2",
+      "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -52,6 +52,12 @@
     {
       "name": "flutter",
       "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/packages/flutter",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_linkify",
+      "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_linkify-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -78,6 +84,18 @@
       "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-3.1.4",
       "packageUri": "lib/",
       "languageVersion": "2.3"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "linkify",
+      "rootUri": "file:///home/shlomo/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/linkify-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "matcher",
@@ -164,7 +182,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-04-21T17:23:22.146827Z",
+  "generated": "2021-05-25T21:23:46.124539Z",
   "generator": "pub",
   "generatorVersion": "2.12.2"
 }

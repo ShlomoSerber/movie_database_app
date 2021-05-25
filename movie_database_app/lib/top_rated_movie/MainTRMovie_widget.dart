@@ -55,6 +55,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
           results = TRMovie.fromJson(parsed);
           finalPage = results.totalPages;
           width = MediaQuery.of(context).size.width;
+          // results.results[index].id
 
           return Stack(
             alignment: Alignment.center,
@@ -70,91 +71,94 @@ class _MainTRMovieState extends State<MainTRMovie> {
                     childAspectRatio: 0.59,
                   ),
                   itemBuilder: (context, index) {
-                    return Card(
-                      elevation: width * 0.01,
-                      color: cardBackgroundColor,
-                      shadowColor: shadowColor,
-                      shape: cardShape,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: width * 0.02,
-                              right: width * 0.02,
-                              top: width * 0.02,
-                              bottom: width * 0.01,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: cardRadius,
-                              child: Image.network(
-                                imageLink + results.results[index].posterPath,
+                    return TextButton(
+                      onPressed: null,
+                      child: Card(
+                        elevation: width * 0.01,
+                        color: cardBackgroundColor,
+                        shadowColor: shadowColor,
+                        shape: cardShape,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: width * 0.02,
+                                right: width * 0.02,
+                                top: width * 0.02,
+                                bottom: width * 0.01,
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: width * 0.02,
-                              right: width * 0.02,
-                              top: width * 0.01,
-                              bottom: width * 0.01,
-                            ),
-                            child: Text(
-                              results.results[index].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: textScaleFactor(
-                                  scaleFactor: width,
+                              child: ClipRRect(
+                                borderRadius: cardRadius,
+                                child: Image.network(
+                                  imageLink + results.results[index].posterPath,
                                 ),
-                                color: textColor,
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: width * 0.02,
-                              right: width * 0.02,
-                              top: width * 0.01,
-                              bottom: width * 0.02,
-                            ),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  RatingBar(
-                                    initialRating:
-                                        results.results[index].voteAverage,
-                                    itemSize: textScaleFactor(
-                                      scaleFactor: width,
-                                    ),
-                                    allowHalfRating: true,
-                                    direction: Axis.horizontal,
-                                    itemCount: 10,
-                                    ratingWidget: RatingWidget(
-                                      full: fullStar,
-                                      half: halfStar,
-                                      empty: emptyStar,
-                                    ),
-                                    onRatingUpdate: null,
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: width * 0.02,
+                                right: width * 0.02,
+                                top: width * 0.01,
+                                bottom: width * 0.01,
+                              ),
+                              child: Text(
+                                results.results[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: textScaleFactor(
+                                    scaleFactor: width,
                                   ),
-                                  Text(
-                                    '(' +
-                                        results.results[index].voteAverage
-                                            .toString() +
-                                        ')',
-                                    style: TextStyle(
-                                      fontSize: textScaleFactor(
+                                  color: textColor,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: width * 0.02,
+                                right: width * 0.02,
+                                top: width * 0.01,
+                                bottom: width * 0.02,
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RatingBar(
+                                      initialRating:
+                                          results.results[index].voteAverage,
+                                      itemSize: textScaleFactor(
                                         scaleFactor: width,
                                       ),
-                                      color: textColor,
+                                      allowHalfRating: true,
+                                      direction: Axis.horizontal,
+                                      itemCount: 10,
+                                      ratingWidget: RatingWidget(
+                                        full: fullStar,
+                                        half: halfStar,
+                                        empty: emptyStar,
+                                      ),
+                                      onRatingUpdate: null,
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      '(' +
+                                          results.results[index].voteAverage
+                                              .toString() +
+                                          ')',
+                                      style: TextStyle(
+                                        fontSize: textScaleFactor(
+                                          scaleFactor: width,
+                                        ),
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },

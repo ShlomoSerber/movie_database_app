@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 // AppBar color
 Color appBarColor = Colors.blueGrey.shade900;
 // App background color
-Color backgroundColor = Colors.blueGrey.shade500;
+Color backgroundColor = Colors.blueGrey.shade300;
 // Text & Icon color
 Color textColor = Colors.black;
 // Page navigator button colors
@@ -56,29 +56,3 @@ Widget halfStar = Icon(
   Icons.star_half,
   color: textColor,
 );
-
-// No data widget
-noData({var textScaleFactor}) {
-  Widget noData = Center(
-    child: Column(
-      children: [
-        Center(
-          child: Text(
-            'Error:',
-            style: TextStyle(
-              fontSize: textScaleFactor(scaleFactor: textScaleFactor),
-            ),
-          ),
-        ),
-        Center(
-          child: Text(
-            'Data not available',
-            style: TextStyle(
-              fontSize: textScaleFactor(scaleFactor: textScaleFactor),
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-}
