@@ -5,9 +5,7 @@ import 'package:movie_database_app/top_rated_movie/MainTRMovie_widget.dart';
 main(List<String> args) {
   runApp(
     MaterialApp(
-      home: FullMovie(
-        id: 122,
-      ),
+      home: MainTRMovie(),
       debugShowCheckedModeBanner: false,
     ),
   );

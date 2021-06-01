@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -72,7 +73,16 @@ class _MainTRMovieState extends State<MainTRMovie> {
                   ),
                   itemBuilder: (context, index) {
                     return TextButton(
-                      onPressed: null,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FullMovie(
+                              id: results.results[index].id,
+                            ),
+                          ),
+                        );
+                      },
                       child: Card(
                         elevation: width * 0.01,
                         color: cardBackgroundColor,

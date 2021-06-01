@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbols.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_database_app/full_movie/Movie_class.dart';
 import 'package:movie_database_app/full_movie/api_links.dart';
@@ -97,47 +94,49 @@ class FullMovie extends StatelessWidget {
                           height: width * 0.78,
                           width: width * 0.46,
                           alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: width * 0.01,
+                          child: Container(
+                            child: ListView(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: width * 0.01,
+                                  ),
+                                  child: text(text: 'Status: ' + movie.status),
                                 ),
-                                child: text(text: 'Status: ' + movie.status),
-                              ),
-                              releaseDate(releaseDate: movie.releaseDate),
-                              divider(),
-                              productionCountries(
-                                  productionCountries:
-                                      movie.productionCountries),
-                              spokenLanguages(
-                                  spokenLanguages: movie.spokenLanguages),
-                              text(
-                                  text: 'Original language: ' +
-                                      movie.originalLanguage),
-                              divider(),
-                              text(
-                                text: 'Budget: ' +
-                                    NumberFormat.currency(decimalDigits: 0)
-                                        .format(movie.budget),
-                              ),
-                              text(
-                                text: 'Revenue: ' +
-                                    NumberFormat.currency(decimalDigits: 0)
-                                        .format(movie.revenue),
-                              ),
-                              divider(),
-                              text(text: 'Adult: ' + movie.adult.toString()),
-                              genres(genres: movie.genres),
-                              divider(),
-                              text(
-                                  text: 'Popularity: ' +
-                                      movie.popularity.toString()),
-                              text(
-                                  text: 'Rating: ' +
-                                      movie.voteAverage.toString()),
-                              divider()
-                            ],
+                                releaseDate(releaseDate: movie.releaseDate),
+                                divider(),
+                                productionCountries(
+                                    productionCountries:
+                                        movie.productionCountries),
+                                spokenLanguages(
+                                    spokenLanguages: movie.spokenLanguages),
+                                text(
+                                    text: 'Original language: ' +
+                                        movie.originalLanguage),
+                                divider(),
+                                text(
+                                  text: 'Budget: ' +
+                                      NumberFormat.currency(decimalDigits: 0)
+                                          .format(movie.budget),
+                                ),
+                                text(
+                                  text: 'Revenue: ' +
+                                      NumberFormat.currency(decimalDigits: 0)
+                                          .format(movie.revenue),
+                                ),
+                                divider(),
+                                text(text: 'Adult: ' + movie.adult.toString()),
+                                genres(genres: movie.genres),
+                                divider(),
+                                text(
+                                    text: 'Popularity: ' +
+                                        movie.popularity.toString()),
+                                text(
+                                    text: 'Rating: ' +
+                                        movie.voteAverage.toString()),
+                                divider()
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -163,7 +162,6 @@ class FullMovie extends StatelessWidget {
                         tagline(tagline: movie.tagline),
                         text(text: 'Overview: ' + movie.overview),
                         divider(),
-                        text(text: 'Production companies:'),
                         productionCompanies(
                             productionCompanies: movie.productionCompanies),
                       ],
@@ -256,18 +254,45 @@ class FullMovie extends StatelessWidget {
     }
   }
 
-  productionCompanies({List<ProductionCompany> productionCompanies}) {
+  Widget productionCompanies({List<ProductionCompany> productionCompanies}) {
     ProductionCompany productionCompany;
-    List<String> productionCompaniesLogosLinks = [];
-    List<Image> productionCompaniesLogos = [];
+    List<Image> images = [];
 
     for (var i = 0; i < productionCompanies.length; i++) {
       productionCompany = productionCompanies[i];
-      productionCompaniesLogosLinks.add(productionCompany.logoPath);
-      productionCompaniesLogos.add(
-        Image.network(imageLink + productionCompaniesLogosLinks[i]),
+      if (productionCompany.logoPath != null) {
+        images.add(Image.network(imageLink + productionCompany.logoPath));
+      }
+    }
+    List<Widget> finalWidget = imagesFormatter(images: images);
+    if (finalWidget.length != 0) {
+      return Column(
+        children: [
+          text(text: 'Production companies:'),
+          Row(
+            children: finalWidget,
+          ),
+        ],
+      );
+    } else {
+      return text(text: '');
+    }
+  }
+
+  List<Widget> imagesFormatter({List<Image> images}) {
+    List<Container> containers = [];
+
+    for (var i = 0; i < images.length; i++) {
+      containers.add(
+        Container(
+          padding: EdgeInsets.all(width * 0.01),
+          alignment: Alignment.centerLeft,
+          height: width * 0.11,
+          width: width * 0.15,
+          child: images[i],
+        ),
       );
     }
-    return productionCompaniesLogos;
+    return containers;
   }
 }
