@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
+import 'package:movie_database_app/popular_movie/MainPMovie_widget.dart';
+import 'package:movie_database_app/searched_movie/Buscar.dart';
+import 'package:movie_database_app/searched_movie/SearchButton_widget.dart';
 import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_database_app/top_rated_movie/api_links.dart';
@@ -39,7 +42,45 @@ class _MainTRMovieState extends State<MainTRMovie> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: appBarColor,
-        title: Center(child: Text('Top Rated Movies')),
+        title: Center(
+          child: Text('Top Rated Movies'),
+        ),
+        actions: [
+          //SearchButton(),
+          //menuBuscar(context),
+          PopupMenuButton(
+            onSelected: (value) {
+              switch (value) {
+                case 1:
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainTRMovie(),
+                    ),
+                  );
+                  break;
+                case 2:
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainPMovie(),
+                    ),
+                  );
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text('Top Rated'),
+                value: 1,
+              ),
+              PopupMenuItem(
+                child: Text('Most Popular'),
+                value: 2,
+              )
+            ],
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: http.get(
@@ -99,9 +140,11 @@ class _MainTRMovieState extends State<MainTRMovie> {
                               ),
                               child: ClipRRect(
                                 borderRadius: cardRadius,
-                                child: Image.network(
-                                  imageLink + results.results[index].posterPath,
-                                ),
+                                child: results.results[index].posterPath != null
+                                    ? Image.network(imageLink +
+                                        results.results[index].posterPath)
+                                    : Image.asset(
+                                        'images/no_image_available.png'),
                               ),
                             ),
                             Padding(

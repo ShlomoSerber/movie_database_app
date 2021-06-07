@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:movie_database_app/full_movie/Movie_class.dart';
 import 'package:movie_database_app/full_movie/api_links.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
+import 'package:movie_database_app/popular_movie/MainPMovie_widget.dart';
+import 'package:movie_database_app/top_rated_movie/MainTRMovie_widget.dart';
 
 class FullMovie extends StatelessWidget {
   FullMovie({this.id});
@@ -42,6 +44,40 @@ class FullMovie extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              actions: [
+                PopupMenuButton(
+                  onSelected: (value) {
+                    switch (value) {
+                      case 1:
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainTRMovie(),
+                          ),
+                        );
+                        break;
+                      case 2:
+                        Navigator.pop(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainPMovie(),
+                          ),
+                        );
+                        break;
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Text('Top Rated'),
+                      value: 1,
+                    ),
+                    PopupMenuItem(
+                      child: Text('Most Popular'),
+                      value: 2,
+                    )
+                  ],
+                )
+              ],
             ),
             body: Padding(
               padding: EdgeInsets.all(width * 0.01),
@@ -68,9 +104,11 @@ class FullMovie extends StatelessWidget {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: cardRadius,
-                                    child: Image.network(
-                                      imageLink + movie.posterPath,
-                                    ),
+                                    child: movie.posterPath != null
+                                        ? Image.network(
+                                            imageLink + movie.posterPath)
+                                        : Image.asset(
+                                            'images/no_image_available.png'),
                                   ),
                                 ),
                                 Text(
@@ -91,11 +129,10 @@ class FullMovie extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(top: width * 0.02),
                         child: Container(
-                          height: width * 0.78,
                           width: width * 0.46,
                           alignment: Alignment.topLeft,
                           child: Container(
-                            child: ListView(
+                            child: Column(
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -287,7 +324,7 @@ class FullMovie extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(width * 0.01),
           alignment: Alignment.centerLeft,
-          height: width * 0.11,
+          height: width * 0.13,
           width: width * 0.15,
           child: images[i],
         ),
