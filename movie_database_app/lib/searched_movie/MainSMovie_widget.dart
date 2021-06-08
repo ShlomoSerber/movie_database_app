@@ -5,6 +5,7 @@ import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
 import 'package:movie_database_app/popular_movie/MainPMovie_widget.dart';
 import 'package:movie_database_app/searched_movie/SMovie_class.dart';
+import 'package:movie_database_app/searched_movie/SearchButton_widget.dart';
 import 'package:movie_database_app/searched_movie/api_links.dart';
 import 'package:movie_database_app/top_rated_movie/MainTRMovie_widget.dart';
 
@@ -47,6 +48,15 @@ class _MainSMovieState extends State<MainSMovie> {
           ),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => SearchButton(),
+              );
+            },
+          ),
           PopupMenuButton(
             onSelected: (value) {
               switch (value) {

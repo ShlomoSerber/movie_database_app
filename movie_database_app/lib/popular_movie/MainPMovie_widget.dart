@@ -5,6 +5,7 @@ import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
 import 'package:movie_database_app/popular_movie/PMovie_class.dart';
 import 'package:movie_database_app/popular_movie/api_links.dart';
+import 'package:movie_database_app/searched_movie/SearchButton_widget.dart';
 import 'package:movie_database_app/top_rated_movie/MainTRMovie_widget.dart';
 
 class MainPMovie extends StatefulWidget {
@@ -43,6 +44,15 @@ class _MainPMovieState extends State<MainPMovie> {
           child: Text('Popular Movies'),
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => SearchButton(),
+              );
+            },
+          ),
           PopupMenuButton(
             onSelected: (value) {
               switch (value) {
