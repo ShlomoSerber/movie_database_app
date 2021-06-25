@@ -9,7 +9,7 @@
             "cwd": "movie_database_app",
             "request": "launch",
             "type": "dart",
-            "program": "/home/shlomo/Desktop/Shlomo/Programing/Dart/Curso Dart/Nivelacion/movie_database_app/movie_database_app/lib/main/main.dart"
+            "program": "movie_database_app/lib/main.dart",
         }
     ]
 }
