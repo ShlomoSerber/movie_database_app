@@ -1,5 +1,5 @@
-class PResult {
-  PResult({
+class Result {
+  Result({
     this.adult,
     this.backdropPath,
     this.genreIds,
@@ -31,7 +31,7 @@ class PResult {
   double voteAverage;
   int voteCount;
 
-  factory PResult.fromJson(Map<String, dynamic> json) => PResult(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
