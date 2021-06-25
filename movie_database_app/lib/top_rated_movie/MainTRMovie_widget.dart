@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:movie_database_app/MainScreen_widget.dart';
 import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
+import 'package:movie_database_app/movie_card_json_classes/CMovie_card_class.dart';
 import 'package:movie_database_app/popular_movie/MainPMovie_widget.dart';
 import 'package:movie_database_app/searched_movie/SearchButton_widget.dart';
-import 'package:movie_database_app/top_rated_movie/TRMovie_class.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_database_app/top_rated_movie/api_links.dart';
 
@@ -16,7 +17,7 @@ class MainTRMovie extends StatefulWidget {
 
 class _MainTRMovieState extends State<MainTRMovie> {
   // Global class variables:
-  TRMovie results;
+  CMovie results;
   int pageNumber = 1;
   int finalPage;
   double width;
@@ -54,12 +55,23 @@ class _MainTRMovieState extends State<MainTRMovie> {
               );
             },
           ),
-          //menuBuscar(context),
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MainScreen(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
           PopupMenuButton(
             onSelected: (value) {
               switch (value) {
                 case 1:
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MainTRMovie(),
@@ -67,7 +79,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
                   );
                   break;
                 case 2:
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MainPMovie(),
@@ -101,7 +113,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
           }
 
           final Map parsed = json.decode(snapshot.data.body);
-          results = TRMovie.fromJson(parsed);
+          results = CMovie.fromJson(parsed);
           finalPage = results.totalPages;
           width = MediaQuery.of(context).size.width;
           // results.results[index].id
