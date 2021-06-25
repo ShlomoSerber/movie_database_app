@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:movie_database_app/MainScreen_widget.dart';
 import 'package:movie_database_app/full_movie/Movie_widget.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
-import 'package:movie_database_app/popular_movie/PMovie_class.dart';
+import 'package:movie_database_app/movie_card_json_classes/CMovie_card_class.dart';
 import 'package:movie_database_app/popular_movie/api_links.dart';
 import 'package:movie_database_app/searched_movie/SearchButton_widget.dart';
 import 'package:movie_database_app/top_rated_movie/MainTRMovie_widget.dart';
@@ -15,7 +16,7 @@ class MainPMovie extends StatefulWidget {
 
 class _MainPMovieState extends State<MainPMovie> {
   // Global class variables:
-  PMovie results;
+  CMovie results;
   int pageNumber = 1;
   int finalPage;
   double width;
@@ -53,11 +54,23 @@ class _MainPMovieState extends State<MainPMovie> {
               );
             },
           ),
+          IconButton(
+            icon: Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MainScreen(),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
           PopupMenuButton(
             onSelected: (value) {
               switch (value) {
                 case 1:
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MainTRMovie(),
@@ -65,7 +78,7 @@ class _MainPMovieState extends State<MainPMovie> {
                   );
                   break;
                 case 2:
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MainPMovie(),
@@ -99,7 +112,7 @@ class _MainPMovieState extends State<MainPMovie> {
           }
 
           final Map parsed = json.decode(snapshot.data.body);
-          results = PMovie.fromJson(parsed);
+          results = CMovie.fromJson(parsed);
           finalPage = results.totalPages;
           width = MediaQuery.of(context).size.width;
           // results.results[index].id

@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(width * 0.01),
                     height: width * 0.35,
-                    width: width * 0.47,
+                    width: width * 0.49,
                     child: Card(
                       color: cardBackgroundColor,
                       shape: cardShape,
@@ -73,7 +73,7 @@ class MainScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(width * 0.01),
                     height: width * 0.35,
-                    width: width * 0.47,
+                    width: width * 0.49,
                     child: Card(
                       color: cardBackgroundColor,
                       shape: cardShape,
@@ -110,7 +110,7 @@ class MainScreen extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.only(
-                        top: width * 0.02,
+                        top: width * 0.05,
                         left: width * 0.05,
                       ),
                       alignment: Alignment.centerLeft,
@@ -137,7 +137,10 @@ class MainScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(width * 0.02),
+                      padding: EdgeInsets.only(
+                        right: width * 0.04,
+                        top: width * 0.01,
+                      ),
                       alignment: Alignment.bottomRight,
                       child: TextButton(
                         child: Text('Search'),

@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:movie_database_app/MainScreen_widget.dart';
 import 'package:movie_database_app/full_movie/Movie_class.dart';
 import 'package:movie_database_app/full_movie/api_links.dart';
 import 'package:movie_database_app/global_theme/global_theme.dart';
@@ -52,6 +53,18 @@ class FullMovie extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) => SearchButton(),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(),
+                      ),
+                      (Route<dynamic> route) => false,
                     );
                   },
                 ),
