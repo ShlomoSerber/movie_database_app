@@ -248,7 +248,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
                   child: Padding(
                     padding: EdgeInsets.all(width * 0.013),
                     child: ButtonBar(
-                      buttonPadding: EdgeInsets.all(width * 0.001),
+                      buttonPadding: EdgeInsets.only(top: width * 0.2),
                       alignment: MainAxisAlignment.center,
                       children: buildButtons(),
                     ),
@@ -267,7 +267,7 @@ class _MainTRMovieState extends State<MainTRMovie> {
   }
 
   Widget buildButton(int page, {var color, var label}) {
-    return ElevatedButton(
+    return TextButton(
       onPressed: () {
         setState(() {
           pageNumber = page;

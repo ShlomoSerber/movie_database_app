@@ -331,6 +331,4 @@ class _MainPMovieState extends State<MainPMovie> {
 
     return buttons;
   }
-
-  Route<Object> MainTRMovieWidget() {}
 }
