@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(width * 0.01),
                     height: width * 0.35,
-                    width: width * 0.49,
+                    width: width * 0.45,
                     child: Card(
                       color: cardBackgroundColor,
                       shape: cardShape,
@@ -73,7 +73,7 @@ class MainScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.all(width * 0.01),
                     height: width * 0.35,
-                    width: width * 0.49,
+                    width: width * 0.45,
                     child: Card(
                       color: cardBackgroundColor,
                       shape: cardShape,
@@ -99,7 +99,7 @@ class MainScreen extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(width * 0.02),
-              height: width * 0.40,
+              height: width * 0.45,
               width: width * 0.96,
               child: Card(
                 color: cardBackgroundColor,

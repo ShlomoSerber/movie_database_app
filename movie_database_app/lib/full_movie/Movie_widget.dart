@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -325,7 +324,19 @@ class FullMovie extends StatelessWidget {
       }
     }
     List<Widget> finalWidget = imagesFormatter(images: images);
-    if (finalWidget.length != 0) {
+    if (finalWidget.length >= 6) {
+      return Column(
+        children: [
+          text(text: 'Production companies:'),
+          Row(
+            children: finalWidget.sublist(0, 6),
+          ),
+          Row(
+            children: finalWidget.sublist(6),
+          )
+        ],
+      );
+    } else if (finalWidget.length != 0) {
       return Column(
         children: [
           text(text: 'Production companies:'),
